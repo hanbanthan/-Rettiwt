@@ -1,5 +1,5 @@
 import Avatar from "../Avatar";
-import useUsers from "../hooks/useUsers";
+import useUsers from "../../hooks/useUsers";
 
 const FollowBar=()=>{
     const {data: users = [] } = useUsers();

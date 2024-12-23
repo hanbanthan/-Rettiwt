@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useUser from "./hooks/useUser";
+import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 //import { BiBorderRadius } from "react-icons/bi";
 import Image from "next/image";

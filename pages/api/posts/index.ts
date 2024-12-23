@@ -1,4 +1,5 @@
 import serverAuth from "@/libs/serverAuth";
+import { truncate } from "fs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -10,7 +11,7 @@ export default async function handler(
     }
 
     try{
-        if(req.method ==='POST'){
+        if(req.method==='POST'){
             const { currentUser } = await serverAuth(req,res);
             const { body } = req.body;
 
@@ -20,20 +21,19 @@ export default async function handler(
                     userId: currentUser.id
                 }
             });
-
             return res.status(200).json(post);
         }
 
         if(req.method==='GET'){
             const { userId } = req.query;
-           
-            console.log({ userId })
-            
+
+            console.log({ userId });
+
             let posts;
 
             if(userId && typeof userId === 'string'){
                 posts = await prisma?.post.findMany({
-                    where : {
+                    where:{
                         userId
                     },
                     include: {
@@ -57,7 +57,8 @@ export default async function handler(
             }
             return res.status(200).json(posts);
         }
-    } catch(error){
+
+    } catch(error) {
         console.log(error);
         return res.status(400).end();
     }

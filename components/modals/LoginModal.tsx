@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import useLoginModal from "../hooks/useLoginModal";
+import useLoginModal from "../../hooks/useLoginModal";
 import Input from "../Input";
 import Modal from "../Modal";
-import useRegisterModal from "../hooks/useRegisterModal";
+import useRegisterModal from "../../hooks/useRegisterModal";
 import { signIn } from "next-auth/react";
 
 const LoginModal = () =>{
@@ -57,7 +57,7 @@ const LoginModal = () =>{
 
     const footerContent=(
         <div className="text-neutral-400 text-center mt-4">
-           <p>First time using Twitter?
+           <p>First time using Rettiwt?
                 <span
                     onClick={onToggle}
                     className="

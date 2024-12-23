@@ -1,4 +1,4 @@
-import usePosts from "../hooks/usePosts";
+import usePosts from "../../hooks/usePosts";
 import PostItem from "./PostItem";
 
 interface PostFeedProps{
@@ -12,11 +12,12 @@ const PostFeed: React.FC<PostFeedProps> = ({userId}) => {
     return (
         <>
             {posts.map((post: Record< string,any >)=>(
-                < PostItem
+                <PostItem
                     userId={userId}
                     key={post.id}
                     data={post}
-                    />
+                    
+                />
             ))}
         </>
     );
