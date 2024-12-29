@@ -6,6 +6,11 @@ import { formatDistanceToNowStrict } from "date-fns";
 import Avatar from "../Avatar";
 import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from "react-icons/ai";
 import useLike from "../../hooks/useLike";
+import Button from "../Button";
+import useEditPostModal from "@/hooks/useEditPostModal";
+import toast from "react-hot-toast";
+import axios from "axios";
+import usePosts from "@/hooks/usePosts";
 
 interface PostItemProps{
     data: Record<string,any>;
@@ -15,6 +20,8 @@ interface PostItemProps{
 const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
     const router = useRouter();
     const loginModal = useLoginModal();
+    const editPostModal = useEditPostModal();
+    const { mutate: mutatePosts } = usePosts();
 
     const { data: currentUser } = useCurrentUser();
     const { hasLiked, toggleLike } = useLike({postId: data.id, userId});
@@ -48,6 +55,26 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
     },[data?.createdAt]);
 
     const LikeIcon = hasLiked?AiFillHeart:AiOutlineHeart;
+
+    const onEditClick =  (event: any) => {
+        event.stopPropagation();
+        editPostModal.onOpen(data.id);
+    }
+
+
+    const onDelete = useCallback (async (event: any) =>{
+        event.stopPropagation();
+        try{
+            await axios.delete(`/api/posts/${data.id}`);
+            
+            mutatePosts();
+
+            toast.success('Post deleted successfully');
+        } catch (error) {
+            console.log(error);
+            toast.error('Something went wrong');
+        }
+    },[data.id, mutatePosts]);
 
     return (
         <div
@@ -93,6 +120,20 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
                             {createdAt}
                         </span>
                     </div>
+                     {data.image && (
+                        <div className="mt-3">
+                            <img
+                                src={data.image}
+                                alt="Post image"
+                                className="
+                                    max-h-60 
+                                    object-cover 
+                                    rounded-md 
+                                    w-full
+                                "
+                            />
+                        </div>
+                    )}
                     <div className="text-white mt-1">
                         {data.body}
                     </div>
@@ -133,6 +174,15 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
                             </p>
                         </div>
                     </div>
+                    {currentUser&&currentUser.id===userId&&(<Button 
+                        secondary 
+                        onClick={onEditClick}
+                        label="Edit Post"
+                    />)}
+                    {currentUser&&currentUser.id===userId&&(<Button 
+                        secondary
+                        onClick={onDelete} 
+                        label="Delete" />)}
                 </div>
             </div>
         </div>

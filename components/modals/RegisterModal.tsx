@@ -5,7 +5,6 @@ import useLoginModal from "../../hooks/useLoginModal";
 import useRegisterModal from "../../hooks/useRegisterModal";
 import Input from "../Input";
 import Modal from "../Modal";
-import { register } from "module";
 import axios from "axios";
 
 

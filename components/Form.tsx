@@ -9,7 +9,9 @@ import Button from "./Button";
 import Avatar from "./Avatar";
 import usePost from "../hooks/usePost";
 
-interface FormProps{
+import usePostModal from "@/hooks/usePostModal";
+
+interface FormProps {
     placeholder: string;
     isComment?: boolean;
     postId?: string;
@@ -22,23 +24,24 @@ const Form: React.FC<FormProps> = ({
 }) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
+    const postModal = usePostModal();
 
-    const { data: currentUser } =useCurrentUser();
+    const { data: currentUser } = useCurrentUser();
     const { mutate: mutatePosts } = usePosts();
     const { mutate: mutatePost } = usePost(postId as string);
-    
+
     const [body, setBody] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const onSubmit = useCallback(async() => {
-        try{
+    const onSubmit = useCallback(async () => {
+        try {
             setIsLoading(true);
 
             const url = isComment ?
-                 `/api/comments?postId=${postId}`
-                :`/api/posts`;
+                `/api/comments?postId=${postId}`
+                : `/api/posts`;
 
-            await axios.post(url,{body});
+            await axios.post(url, { body });
 
             toast.success('Tweet Created');
 
@@ -52,15 +55,27 @@ const Form: React.FC<FormProps> = ({
         } finally {
             setIsLoading(false);
         }
-    },[body, mutatePosts, isComment, postId, mutatePost]);
-    
+    }, [body, mutatePosts, isComment, postId, mutatePost]);
+
+    // Opening modal to create a post or comment
+    const handleCreatePost = () => {
+        postModal.onOpen(false); // New post
+    };
+
+    const handleCreateComment = () => {
+        postModal.onOpen(true, postId); // Comment on a specific post
+    };
+
+
+
+
     return (
         <div
             className="border-b-[1px] border-neutral-800 px-5 py-2">
             {currentUser ? (
                 <div className="flex flex-row gap-4">
                     <div>
-                      <Avatar userId={currentUser?.id}/>
+                        <Avatar userId={currentUser?.id} />
                     </div>
                     <div className="w-full">
                         <textarea
@@ -82,7 +97,7 @@ const Form: React.FC<FormProps> = ({
                             "
                             placeholder={placeholder}
                         ></textarea>
-                        <hr 
+                        <hr
                             className="
                                 opacity-0
                                 peer-focus: 
@@ -92,16 +107,22 @@ const Form: React.FC<FormProps> = ({
                                 transition 
                             "
                         />
-                        <div className="mt-4 flex flex-row justify-end">
-                            <Button 
-                            disabled={isLoading||!body}
-                            onClick={onSubmit}
-                            label="Tweet" />
-
+                        <div className="mt-4 flex flex-row justify-end space-x-4">
+                            <Button
+                                secondary
+                                disabled={isLoading}
+                                onClick={handleCreateComment}
+                                label="Picture"
+                            />
+                            <Button
+                                disabled={isLoading || !body}
+                                onClick={onSubmit}
+                                label="Tweet"
+                            />
                         </div>
                     </div>
                 </div>
-            ) : (   
+            ) : (
                 <div className="py-8">
                     <h1
                         className="
@@ -113,14 +134,14 @@ const Form: React.FC<FormProps> = ({
                         "
                     >Welcome to Rettiwt</h1>
                     <div className="flex flex-row items-center justify-center gap-4">
-                        <Button label="Login" onClick={loginModal.onOpen}/>
-                        <Button 
-                            label="Register" 
-                            onClick={registerModal.onOpen} 
-                            secondary/>
+                        <Button label="Login" onClick={loginModal.onOpen} />
+                        <Button
+                            label="Register"
+                            onClick={registerModal.onOpen}
+                            secondary />
                     </div>
                 </div>
-                )};
+            )};
         </div>
     );
 }

@@ -1,5 +1,4 @@
 import serverAuth from "@/libs/serverAuth";
-import { truncate } from "fs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -13,11 +12,12 @@ export default async function handler(
     try{
         if(req.method==='POST'){
             const { currentUser } = await serverAuth(req,res);
-            const { body } = req.body;
+            const { body,image } = req.body;
 
             const post = await prisma?.post.create({
                 data: {
                     body,
+                    image,
                     userId: currentUser.id
                 }
             });

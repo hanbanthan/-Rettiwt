@@ -11,7 +11,7 @@ export default async function handler(
     
     try{
         const { currentUser } = await serverAuth(req,res);
-        const { body } = req.body;
+        const { body, image } = req.body;
         const { postId }= req.query;
 
         if(!postId || typeof postId !=='string'){
@@ -21,8 +21,9 @@ export default async function handler(
         const comment = await prisma?.comment.create({
             data:{
                 body,
+                image,
                 userId: currentUser.id,
-                postId
+                postId: postId as string
             }
         });
 
