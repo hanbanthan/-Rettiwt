@@ -37,7 +37,7 @@ export default async function handler(
             if(post?.userId){
                 await prisma.notification.create({
                     data: {
-                        body: 'Someone replied tweet!',
+                        body: `${currentUser.name} reply your tweet!`,
                         userId: post.userId
                     }
                 });

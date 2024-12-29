@@ -174,15 +174,15 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
                             </p>
                         </div>
                     </div>
-                    {currentUser&&currentUser.id===userId&&(<Button 
+                    <Button 
                         secondary 
                         onClick={onEditClick}
                         label="Edit Post"
-                    />)}
-                    {currentUser&&currentUser.id===userId&&(<Button 
+                    />
+                    <Button 
                         secondary
                         onClick={onDelete} 
-                        label="Delete" />)}
+                        label="Delete" />
                 </div>
             </div>
         </div>

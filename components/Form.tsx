@@ -108,12 +108,12 @@ const Form: React.FC<FormProps> = ({
                             "
                         />
                         <div className="mt-4 flex flex-row justify-end space-x-4">
-                            <Button
+                            {!isComment&&(<Button
                                 secondary
                                 disabled={isLoading}
                                 onClick={handleCreateComment}
                                 label="Picture"
-                            />
+                            />)}
                             <Button
                                 disabled={isLoading || !body}
                                 onClick={onSubmit}
