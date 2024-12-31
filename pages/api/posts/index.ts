@@ -14,6 +14,10 @@ export default async function handler(
             const { currentUser } = await serverAuth(req,res);
             const { body,image } = req.body;
 
+            if (!body) {
+                return res.status(400).json({ message: "Post body is required" });
+            }
+
             const post = await prisma?.post.create({
                 data: {
                     body,

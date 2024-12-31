@@ -29,6 +29,9 @@ const EditPostModal = () => {
 
             mutatePosts();
 
+            setImage('');
+            setBody('');
+            
             toast.success('Post updated successfully');
 
             editPostModal.onClose();
