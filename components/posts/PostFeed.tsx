@@ -15,6 +15,7 @@ interface Post {
     body: string;
     image?: string;
     createdAt: string;
+    likedIds: string[];
 }
 
 interface PostFeedProps{
