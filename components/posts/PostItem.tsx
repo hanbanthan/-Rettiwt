@@ -34,7 +34,6 @@ interface PostItemProps {
     data: Post;
     userId?: string;
 }
-
 const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
     const router = useRouter();
     const loginModal = useLoginModal();
@@ -54,7 +53,7 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
     }, [router, data.id]);
 
     const onLike = useCallback((event: React.MouseEvent) => {
-        event.stopPropagation();
+        event?.stopPropagation();
         if (!currentUser) {
             return loginModal.onOpen();
         }
@@ -70,13 +69,11 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
 
     const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
 
-    const onEditClick = (event: React.MouseEvent) => {
-        event.stopPropagation();
+    const onEditClick = () => {
         editPostModal.onOpen(data.id);
     };
 
-    const onDelete = useCallback(async (event: React.MouseEvent) => {
-        event.stopPropagation();
+    const onDelete = useCallback(async () => {
         try {
             await axios.delete(`/api/posts/${data.id}`);
             mutatePosts();
@@ -149,5 +146,3 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
         </div>
     );
 };
-
-export default PostItem;
