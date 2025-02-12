@@ -1,12 +1,26 @@
 import CommentItem from "./CommentItem";
 
+interface User {
+    id: string;
+    name: string;
+    username: string;
+    profileImage?: string;
+}
+
+interface Comment {
+    id: string;
+    user: User;
+    body: string;
+    createdAt: string; // Assuming it's a timestamp
+}
+
 interface CommentFeedProps{
-    comments?: Record<string,any> [];
+    comments?: Comment[];
 }
 const CommentFeed: React.FC<CommentFeedProps> = ({comments = []}) =>{
     return (
         <>
-            {comments.map((comment: Record<string,any>)=>(
+            {comments.map((comment)=>(
                 <CommentItem key={comment.id} data={comment} />
             ))}
         </>

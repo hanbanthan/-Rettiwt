@@ -12,6 +12,24 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import usePosts from "@/hooks/usePosts";
 
+interface User {
+    id: string;
+    name: string;
+    username: string;
+    profileImage?: string;
+}
+
+interface Post {
+    id: string;
+    userId: string;
+    user: User;
+    body: string;
+    image?: string;
+    createdAt: string;
+    likedIds: string[];
+    comments?: { id: string }[];
+}
+
 interface PostItemProps{
     data: Record<string,any>;
     userId?: string;
@@ -27,7 +45,7 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
     const { hasLiked, toggleLike } = useLike({postId: data.id, userId});
 
     
-    const goToUser = useCallback((event: any)=>{
+    const goToUser = useCallback((event: React.MouseEvent)=>{
         event.stopPropagation();
 
         router.push(`/users/${data.user.id}`);
@@ -37,7 +55,7 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
         router.push(`/posts/${data.id}`);
     },[router, data.id]);
 
-    const onLike = useCallback((event: any)=>{
+    const onLike = useCallback((event: React.MouseEvent)=>{
         event?.stopPropagation();
 
         if(!currentUser){
@@ -62,7 +80,7 @@ const PostItem: React.FC<PostItemProps> = ({data={},userId}) =>{
     }
 
 
-    const onDelete = useCallback (async (event: any) =>{
+    const onDelete = useCallback (async (event: React.MouseEvent) =>{
         event.stopPropagation();
         try{
             await axios.delete(`/api/posts/${data.id}`);

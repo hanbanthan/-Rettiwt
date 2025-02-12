@@ -3,14 +3,27 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
 import Avatar from "../Avatar";
 
+interface User {
+    id: string;
+    name: string;
+    username: string;
+}
+
+interface Comment {
+    id: string;
+    user: User;
+    body: string;
+    createdAt: string; // Assuming it's a timestamp
+}
+
 interface CommentItemProps{
-    data: Record<string,any>
+    data: Comment
 };
 
 const CommentItem: React.FC<CommentItemProps> = ({data}) => {
     const router = useRouter();
 
-    const goToUser = useCallback((event: any)=>{
+    const goToUser = useCallback((event: React.MouseEvent)=>{
         event.stopPropagation();
 
         router.push(`/users/${data.user.id}`);

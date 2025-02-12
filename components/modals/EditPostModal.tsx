@@ -1,7 +1,7 @@
 
 import usePosts from "@/hooks/usePosts";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import toast from "react-hot-toast";
 import Modal from "../Modal";
 import Input from "../Input";
@@ -37,11 +37,12 @@ const EditPostModal = () => {
             editPostModal.onClose();
 
         } catch (error){
+            console.log(error);
             toast.error('Something went wrong');
         } finally {
             setIsLoading(false);
         }
-    },[body, image, editPostModal]);
+    },[body, image, editPostModal, mutatePosts]);
 
    const bodyContent = (
     <div className="flex flex-col gap-4">

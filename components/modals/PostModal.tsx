@@ -1,5 +1,3 @@
-import useCurrentUser from "@/hooks/useCurrentUser";
-import usePost from "@/hooks/usePost";
 import usePostModal from "@/hooks/usePostModal";
 import usePosts from "@/hooks/usePosts";
 import axios from "axios";
@@ -19,10 +17,6 @@ const PostModal: React.FC<PostModalProps> = ({
 }) => {
     const { mutate: mutatePosts } = usePosts();
     const postModal = usePostModal();
-
-    
-    const { data: currentUser } = useCurrentUser();
-    const { mutate: mutatePost } = usePost(postId as string);
 
     const [image, setImage] = useState('');
     const [body, setBody] = useState('');
@@ -56,6 +50,7 @@ const PostModal: React.FC<PostModalProps> = ({
             postModal.onClose();
 
         } catch (error) {
+            console.log(error);
             toast.error('Something went wrong');
         } finally {
             setIsLoading(false);

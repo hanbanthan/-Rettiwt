@@ -1,9 +1,13 @@
-
-
 import useNotifications from "@/hooks/useNotifications";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { useEffect } from "react";
 import Avatar from "./Avatar";
+
+interface Notification {
+  id: string;
+  userId: string;
+  body: string;
+}
 
 const NotificationsFeed = () => {
   const { data: currentUser, mutate: mutateCurrentUser } = useCurrentUser();
@@ -23,7 +27,7 @@ const NotificationsFeed = () => {
   
   return ( 
     <div className="flex flex-col">
-      {fetchedNotifications.map((notification: Record<string, any>) => (
+      {fetchedNotifications.map((notification: Notification) => (
         <div key={notification.id} className="flex flex-row items-center p-6 gap-4 border-b-[1px] border-neutral-800">
           <Avatar userId={notification.userId} /> 
           <p className="text-white">

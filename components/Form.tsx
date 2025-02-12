@@ -57,11 +57,6 @@ const Form: React.FC<FormProps> = ({
         }
     }, [body, mutatePosts, isComment, postId, mutatePost]);
 
-    // Opening modal to create a post or comment
-    const handleCreatePost = () => {
-        postModal.onOpen(false); // New post
-    };
-
     const handleCreateComment = () => {
         postModal.onOpen(true, postId); // Comment on a specific post
     };
