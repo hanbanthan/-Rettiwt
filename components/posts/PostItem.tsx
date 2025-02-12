@@ -146,3 +146,4 @@ const PostItem: React.FC<PostItemProps> = ({ data, userId }) => {
         </div>
     );
 };
+export default PostItem;
